@@ -170,7 +170,8 @@ class PaginaController extends Controller
         $genero = Genero::find($cuento->genero_id);
 
         $p = $genero->nombre .' '. $prompt;
-        $open_ai_key = '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';
+        
+        $open_ai_key = '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';
 
         $open_ai = new OpenAi($open_ai_key);
         

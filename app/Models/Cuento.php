@@ -19,7 +19,7 @@ class Cuento extends Model
     protected $perPage = 20;
 
 
-    protected $fillable = ['titulo','fecha','genero_id','user_id'];
+    protected $fillable = ['titulo','fecha','url','genero_id','user_id'];
 
 
 

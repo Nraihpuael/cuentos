@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('titulo');
             $table->date('fecha');
+            $table->text('url');
             $table->unsignedBigInteger('genero_id');
             $table->smallInteger('estado')->default(0);
             $table->foreign('genero_id')->references('id')->on('genero');

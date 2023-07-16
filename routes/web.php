@@ -35,6 +35,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::resource('cuento', CuentoController::class)->middleware('auth');
 
+Route::get('cuento/generar/{prompt}', [CuentoController::class, 'generar'])->name('cuento.generar');
 Route::get('cuento/{id}/descargar', [CuentoController::class, 'descargar'])->name('cuento.descargar');
 
 
