@@ -6,6 +6,7 @@ use App\Models\Cuento;
 use App\Models\Genero;
 use App\Models\Pagina;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -17,6 +18,10 @@ class PaginaController extends Controller
     public function index($id)
     {
         $cuento = Cuento::find($id);
+        if (!$cuento || Auth::id() !== $cuento->user_id) {
+            // Redirigir o mostrar un mensaje de error si el cuento no existe o el usuario no es el creador
+            return redirect()->route('home')->with('error', 'No tienes permiso para editar este cuento.');
+        }
         $paginas = Pagina::where('cuento_id', $id)->paginate();
         
         return view('pagina.index', compact('paginas', 'id','cuento'))
@@ -27,6 +32,11 @@ class PaginaController extends Controller
 
     public function create($id)
     {
+        $cuento = Cuento::find($id);
+        if (!$cuento || Auth::id() !== $cuento->user_id) {
+            // Redirigir o mostrar un mensaje de error si el cuento no existe o el usuario no es el creador
+            return redirect()->route('home')->with('error', 'No tienes permiso para editar este cuento.');
+        }
         $pagina = new Pagina();
         return view('pagina.create', compact('pagina', 'id'));
     }
@@ -74,6 +84,10 @@ class PaginaController extends Controller
     public function show($id,$cuento_id)
     {
         $cuento = Cuento::find($cuento_id);
+        if (!$cuento || Auth::id() !== $cuento->user_id) {
+            // Redirigir o mostrar un mensaje de error si el cuento no existe o el usuario no es el creador
+            return redirect()->route('home')->with('error', 'No tienes permiso para editar este cuento.');
+        }
         $query = Pagina::where('id', $id)->where('cuento_id', $cuento_id)->get();
         $pagina = $query[0];
         
@@ -83,6 +97,11 @@ class PaginaController extends Controller
     
     public function edit($id,$cuento_id)
     {
+        $cuento = Cuento::find($cuento_id);
+        if (!$cuento || Auth::id() !== $cuento->user_id) {
+            // Redirigir o mostrar un mensaje de error si el cuento no existe o el usuario no es el creador
+            return redirect()->route('home')->with('error', 'No tienes permiso para editar este cuento.');
+        }
         $query = Pagina::where('id', $id)->where('cuento_id', $cuento_id)->get();
         $pagina = $query[0];
         return view('pagina.edit', compact('pagina'));
@@ -171,7 +190,7 @@ class PaginaController extends Controller
 
         $p = $genero->nombre .' '. $prompt;
         
-        $open_ai_key = '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';
+        $open_ai_key = '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';
 
         $open_ai = new OpenAi($open_ai_key);
         

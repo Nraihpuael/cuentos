@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cuento;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -23,7 +25,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $cuentos =  Cuento::with('cuentopaginas')->paginate(10);
+        
+        return view('home', compact('cuentos'))
+            ->with('i', ($cuentos->currentPage() - 1) * $cuentos->perPage());
     }
 
     /*public function uploadImage(Request $request)

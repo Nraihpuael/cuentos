@@ -17,6 +17,7 @@ class CuentoController extends Controller
    
     public function index()
     {
+        
         $cuentos = Auth::user()->miscuentos()->paginate(10);
         
         return view('cuento.index', compact('cuentos'))
@@ -81,6 +82,12 @@ class CuentoController extends Controller
     public function edit($id)
     {
         $cuento = Cuento::find($id);
+        // Verificar si el cuento existe y si el usuario autenticado es el creador
+        if (!$cuento || Auth::id() !== $cuento->user_id) {
+            // Redirigir o mostrar un mensaje de error si el cuento no existe o el usuario no es el creador
+            return redirect()->route('home')->with('error', 'No tienes permiso para editar este cuento.');
+        }
+
         $generos = Genero::all();
         return view('cuento.edit', compact('cuento','generos'));
     }
@@ -125,7 +132,11 @@ class CuentoController extends Controller
     public function destroy($id)
     {
         $cuento = Cuento::find($id);
-
+        // Verificar si el cuento existe y si el usuario autenticado es el creador
+        if (!$cuento || Auth::id() !== $cuento->user_id) {
+            // Redirigir o mostrar un mensaje de error si el cuento no existe o el usuario no es el creador
+            return redirect()->route('home')->with('error', 'No tienes permiso para editar este cuento.');
+        }
         $imageUrl = $cuento->url;
 
         if ($imageUrl) {
@@ -142,7 +153,7 @@ class CuentoController extends Controller
     {
         $p = $prompt;
         
-        $open_ai_key = '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';
+        $open_ai_key = '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';
 
         $open_ai = new OpenAi($open_ai_key);
         
@@ -195,5 +206,24 @@ class CuentoController extends Controller
         return $pdf->download("$cuento->titulo.pdf");
 
         //return view('cuento.show', compact('cuento','paginas'));
+    }
+
+    public function publicar($id)
+    {
+        $cuento = Cuento::find($id);
+        if($cuento->estado == 0){
+            $cuento->estado = 1;
+            $cuento->update();
+            return redirect()->route('pagina.index', ['id' => $id])
+        ->with('success', 'El cuento a sido publicado.');
+        }else{
+            $cuento->estado = 0;
+            $cuento->update();
+            return redirect()->route('pagina.index', ['id' => $id])
+        ->with('success', 'El cuento ya no esta publicado.');
+        }
+
+        
+
     }
 }

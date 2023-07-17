@@ -6,6 +6,7 @@ use App\Models\Cuento;
 use App\Models\Elemento;
 use App\Models\Tipo;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Orhanerday\OpenAi\OpenAi;
@@ -16,6 +17,10 @@ class ElementoController extends Controller
     public function index($id)
     {
         $cuento = Cuento::find($id);
+        if (!$cuento || Auth::id() !== $cuento->user_id) {
+            // Redirigir o mostrar un mensaje de error si el cuento no existe o el usuario no es el creador
+            return redirect()->route('home')->with('error', 'No tienes permiso para editar este cuento.');
+        }
         $tipos = Tipo::all();
         $elementos = Elemento::where('cuento_id', $id)->paginate();
         
@@ -28,6 +33,11 @@ class ElementoController extends Controller
 
     public function create($id)
     {
+        $cuento = Cuento::find($id);
+        if (!$cuento || Auth::id() !== $cuento->user_id) {
+            // Redirigir o mostrar un mensaje de error si el cuento no existe o el usuario no es el creador
+            return redirect()->route('home')->with('error', 'No tienes permiso para editar este cuento.');
+        }
         $elemento = new Elemento();
         $tipos = Tipo::all();
         return view('elemento.create', compact('elemento', 'id','tipos'));
@@ -72,6 +82,10 @@ class ElementoController extends Controller
     public function show($id,$cuento_id)
     {
         $cuento = Cuento::find($cuento_id);
+        if (!$cuento || Auth::id() !== $cuento->user_id) {
+            // Redirigir o mostrar un mensaje de error si el cuento no existe o el usuario no es el creador
+            return redirect()->route('home')->with('error', 'No tienes permiso para editar este cuento.');
+        }
         $query1 = Elemento::where('id', $id)->where('cuento_id', $cuento_id)->get();
         $elemento = $query1[0];
         $query2 = Tipo::where('id', $elemento->tipo_id)->get();
@@ -83,6 +97,11 @@ class ElementoController extends Controller
     
     public function edit($id,$cuento_id)
     {
+        $cuento = Cuento::find($cuento_id);
+        if (!$cuento || Auth::id() !== $cuento->user_id) {
+            // Redirigir o mostrar un mensaje de error si el cuento no existe o el usuario no es el creador
+            return redirect()->route('home')->with('error', 'No tienes permiso para editar este cuento.');
+        }
         $query = Elemento::where('id', $id)->where('cuento_id', $cuento_id)->get();
         $elemento = $query[0];
         return view('elemento.edit', compact('elemento'));
@@ -169,7 +188,7 @@ class ElementoController extends Controller
     {
         $cuento = Cuento::find($id);
         
-        $open_ai_key = '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';
+        $open_ai_key = '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';
 
         $open_ai = new OpenAi($open_ai_key);
         

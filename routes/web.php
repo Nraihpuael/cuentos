@@ -38,7 +38,7 @@ Route::resource('cuento', CuentoController::class)->middleware('auth');
 
 Route::get('cuento/generar/{prompt}', [CuentoController::class, 'generar'])->name('cuento.generar');
 Route::get('cuento/{id}/descargar', [CuentoController::class, 'descargar'])->name('cuento.descargar');
-
+Route::get('cuento/{id}/publicar', [CuentoController::class, 'publicar'])->name('cuento.publicar');
 
 
 Route::get('pagina/{id}', [PaginaController::class, 'index'])->name('pagina.index');
