@@ -34,14 +34,14 @@
       }
   
       .card-img-top {
-          max-width: 100%;
+          max-width: 75%;
           height: auto;
           margin-bottom: 10px;
       }
   
       .card-title {
-          font-size: 30px;
-          margin-bottom: 10px;
+          font-size: 50px;
+          margin-bottom: 30px;
           margin-top: 100px;
           text-align: center;
       }
@@ -91,10 +91,21 @@
                 <strong>Descripcion:</strong>{{ $pagina->descripcion }}
             </div>
             <div class="form-group">
-                <p class="card-text"><strong></strong>{{ $pagina->text }}</p>
+                <div id="text">{!! $formattedPages[$loop->index] !!}</div>
             </div>
         </div>
     </div>
     @endforeach
+    <script src="https://cdn.tiny.cloud/1/knd91vpohfzu2igrxbf3dhjz4d57uwj7r3l3kkdgjd7kxphb/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+    tinymce.init({
+        selector: '#text',
+        plugins: '',
+        menubar: false,
+        toolbar: false,
+        branding: false,
+        statusbar: false,
+        });
+    </script>
 </body>
 </html>

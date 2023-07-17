@@ -31,7 +31,7 @@
                                     <div class="row">
                                         {{--Edita el texto de la pagina--}}
                                         <label for="text" class="col-sm-2 col-form-label"> Texto </label>
-                                        <textarea type="text" id="text" class="form-control" style="height: 300px;"  name="text" x-webkit-speech >{{ $pagina->text }}</textarea>
+                                        <textarea type="text" id="text" class="form-control" style="height: 300px;" name="text" x-webkit-speech>{{ $pagina->text }}</textarea>
                                         <button id="textSpeechButton" type="button">Escribir por voz</button>
     
                                     </div>
@@ -84,6 +84,26 @@
         </div>
     </section>
     
+<script src="https://cdn.tiny.cloud/1/knd91vpohfzu2igrxbf3dhjz4d57uwj7r3l3kkdgjd7kxphb/tinymce/6/tinymce.min.js"
+    referrerpolicy="origin"></script>
+<script>
+tinymce.init({
+    selector: '#text',
+    plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed linkchecker a11ychecker tinymcespellchecker permanentpen powerpaste advtable advcode editimage tinycomments tableofcontents footnotes mergetags autocorrect typography inlinecss',
+    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+    tinycomments_mode: 'embedded',
+    tinycomments_author: 'Author name',
+    mergetags_list: [{
+            value: 'First.Name',
+            title: 'First Name'
+        },
+        {
+            value: 'Email',
+            title: 'Email'
+        },
+    ]
+});
+</script>    
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
         const promptInput = document.getElementById('prompt-input');
@@ -118,10 +138,13 @@
         });
 
         recognition.addEventListener('result', (event) => {
-            const transcript = event.results[0][0].transcript;
+            const transcript = event.results[0][0].transcript.trim();
 
-            if (document.activeElement === textInput) {
-                textInput.value += ' ' + transcript;
+            if (document.activeElement !== promptInput) {
+                const editor = tinymce.get('text');
+                const content = editor.getContent();
+                const updatedContent = content ? content + ' ' + transcript : transcript;
+                editor.setContent(updatedContent.replace(/(\r\n|\n|\r)/gm, ' '));
             } else if (document.activeElement === promptInput) {
                 promptInput.value += ' ' + transcript;
             }

@@ -142,7 +142,7 @@ class CuentoController extends Controller
     {
         $p = $prompt;
         
-        $open_ai_key = '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';
+        $open_ai_key = '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';
 
         $open_ai = new OpenAi($open_ai_key);
         
@@ -177,11 +177,21 @@ class CuentoController extends Controller
             $deleteImagePath = str_replace(url('http://127.0.0.1:8000/storage/'), '', $paginas[$i]->url);
             $paginas[$i]->url = $deleteImagePath ;
         }
-
+        
+        // Agregado para la imagen del cuento
         $deleteImagePathCuento = str_replace(url('http://127.0.0.1:8000/storage/'), '', $cuento->url);
         $cuento->url = $deleteImagePathCuento ;
 
-        $pdf = Pdf::loadView('cuento.descargar', compact('cuento','paginas','usuario'));
+
+        $formattedPages = [];
+
+        foreach ($paginas as $pagina) {
+        // Get the HTML content from the TinyMCE editor instance
+            $formattedContent = $pagina->text;
+            $formattedPages[] = $formattedContent;
+        }
+
+        $pdf = Pdf::loadView('cuento.descargar', compact('cuento', 'formattedPages', 'usuario', 'paginas'));
         return $pdf->download("$cuento->titulo.pdf");
 
         //return view('cuento.show', compact('cuento','paginas'));

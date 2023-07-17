@@ -32,6 +32,7 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
     Route::put('profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
+//Route::post('/uploadimage', [HomeController::class, 'uploadImage'])->name('image.upload');
 
 Route::resource('cuento', CuentoController::class)->middleware('auth');
 

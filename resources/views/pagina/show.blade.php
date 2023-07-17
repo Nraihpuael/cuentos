@@ -33,7 +33,7 @@
                         
                                 <div class="form-group">
                                     <strong>Text:</strong>
-                                    {{ $pagina->text }}
+                                    <textarea id="text" class="form-control" style="height: 300px;" name="text" readonly>{{ $pagina->text }}					</textarea>
                                 </div>
                             </div>                           
                             <div class="col-md-6">
@@ -52,4 +52,16 @@
             </div>
         </div>
     </section>
+    <script src="https://cdn.tiny.cloud/1/knd91vpohfzu2igrxbf3dhjz4d57uwj7r3l3kkdgjd7kxphb/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: '#text',
+            plugins: '',
+            menubar: false,
+            toolbar: false,
+            branding: false,
+            statusbar: false,
+            readonly: true
+        });
+    </script>
 @endsection

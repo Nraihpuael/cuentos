@@ -91,11 +91,8 @@
                             <div class="row">
                                 <button id="promptSpeechButton" type="button">Escribir por voz</button>
                                 <button type="submit">Generar</button>
-                            </div>
-                            
-                            
+                            </div>              
                         </form>
-
                         <!-- Generated images -->
                         <div id="images-container" style="display: flex; margin: 10px;"></div>
                     </div>
