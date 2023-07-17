@@ -329,6 +329,11 @@ return [
             'url'  => 'cuento',
             'icon' => 'fas fa-book-open',
         ],
+        [
+            'text' => 'Necesitas Ayuda',
+            'url'  => 'guia',
+            'icon' => 'fas fa-book',
+        ],
         /*[
             'text' => 'Mis cuentos',
             'url'  => 'admin/settings',

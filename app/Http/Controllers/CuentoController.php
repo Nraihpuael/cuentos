@@ -221,9 +221,6 @@ class CuentoController extends Controller
             $cuento->update();
             return redirect()->route('pagina.index', ['id' => $id])
         ->with('success', 'El cuento ya no esta publicado.');
-        }
-
-        
-
+        }  
     }
 }

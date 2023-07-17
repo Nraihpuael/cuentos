@@ -31,6 +31,10 @@ class HomeController extends Controller
             ->with('i', ($cuentos->currentPage() - 1) * $cuentos->perPage());
     }
 
+    public function guia()
+    {
+        return view('guia');
+    }
     /*public function uploadImage(Request $request)
     {
         $request->validate([

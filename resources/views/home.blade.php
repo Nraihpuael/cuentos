@@ -14,7 +14,7 @@
         @if($cuento->estado == 1)
         <div class="col mb-4">
             <div class="card h-100">
-                @if($cuento->url != null)<div class="card h-100">
+                @if($cuento->url != null)<div class="card">
                     <img src="{{ $cuento->url }}" class="card-img-top" alt="...">
                 </div>
                 @else
@@ -22,12 +22,14 @@
                 <img src="{{ asset('img/crear_cuento1.jpg') }}" class="card-img-top" alt="...">
                 @endif
                 <div class="card-body">
-                    <h5 class="card-title">{{ $cuento->titulo }}</h5>
+                <h5 class="card-title">{{ $cuento->titulo }}</h5>
+
+                    <br></br>
                     @if ($cuento->cuentopaginas->isNotEmpty())
                     @php
-                    $textoPagina = Str::limit($cuento->cuentopaginas[0]->text, 20); // Limitar a 100 caracteres
+                    $textoPagina = Str::limit($cuento->cuentopaginas[0]->text, 50); // Limitar a 100 caracteres
                     @endphp
-                    <input id="text" style="height: max-content">{{ $textoPagina }}> 
+                    <textarea id='text' class="card">{{ $textoPagina }}</textarea> 
                     @else
                     <p>No hay páginas escritas...</p>
                     @endif
@@ -51,7 +53,9 @@
         toolbar: false,
         branding: false,
         statusbar: false,
-        readonly: true
+        readonly: true,
+        height: '3px',
+        width:'auto',
     });
 </script>
 
