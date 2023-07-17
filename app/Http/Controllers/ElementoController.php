@@ -169,7 +169,7 @@ class ElementoController extends Controller
     {
         $cuento = Cuento::find($id);
         
-        $open_ai_key = '';
+        $open_ai_key = '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';
 
         $open_ai = new OpenAi($open_ai_key);
         

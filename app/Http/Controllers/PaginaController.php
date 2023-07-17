@@ -171,7 +171,7 @@ class PaginaController extends Controller
 
         $p = $genero->nombre .' '. $prompt;
         
-        $open_ai_key = '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';
+        $open_ai_key = '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';
 
         $open_ai = new OpenAi($open_ai_key);
         

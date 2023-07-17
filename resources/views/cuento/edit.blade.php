@@ -107,13 +107,16 @@
     </section>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
+
+        const promptInput = document.getElementById('prompt-input');
+        const promptSpeechButton = document.getElementById('promptSpeechButton');
+
+        if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         const recognition = new SpeechRecognition();
 
         recognition.lang = 'es-ES'; // Set the language if needed
-
-        const promptInput = document.getElementById('prompt-input');
-        const promptSpeechButton = document.getElementById('promptSpeechButton');
 
         promptSpeechButton.addEventListener('click', () => {
             recognition.start();
@@ -127,13 +130,15 @@
         recognition.addEventListener('result', (event) => {
             const transcript = event.results[0][0].transcript;
 
-            if (document.activeElement === textInput) {
-                textInput.value += ' ' + transcript;
-            } else if (document.activeElement === promptInput) {
+            if (document.activeElement === promptInput) {
                 promptInput.value += ' ' + transcript;
             }
         });
 
+        } else {
+        console.log('SpeechRecognition API is not supported in this browser.');
+        }
+        
         const promptForm = document.getElementById('prompt-form');
         const imagesContainer = document.getElementById('images-container');
         const firstFormImagesContainer  = document.getElementById('imagen');

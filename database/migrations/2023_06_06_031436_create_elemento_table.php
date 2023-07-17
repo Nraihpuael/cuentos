@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('url');
             $table->text('descripcion');
             $table->unsignedBigInteger('cuento_id');
-            $table->foreign('cuento_id')->references('id')->on('cuento');
+            $table->foreign('cuento_id')->references('id')->on('cuento')->onDelete('cascade');
             $table->unsignedBigInteger('tipo_id');
             $table->foreign('tipo_id')->references('id')->on('tipo');
             $table->timestamps();

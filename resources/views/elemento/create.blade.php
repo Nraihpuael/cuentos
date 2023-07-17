@@ -107,13 +107,19 @@
     
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script>
+
+        const promptInput = document.getElementById('prompt-input');
+        const promptSpeechButton = document.getElementById('promptSpeechButton');
+
+        const textInput = document.getElementById('text');
+        const textSpeechButton = document.getElementById('textSpeechButton');
+
+        if ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window) {
+            
         const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
         const recognition = new SpeechRecognition();
 
         recognition.lang = 'es-ES'; // Set the language if needed
-
-        const textInput = document.getElementById('text');
-        const textSpeechButton = document.getElementById('textSpeechButton');
 
         textSpeechButton.addEventListener('click', () => {
             recognition.start();
@@ -123,9 +129,6 @@
         textInput.addEventListener('blur', () => {
             recognition.stop();
         });
-
-        const promptInput = document.getElementById('prompt-input');
-        const promptSpeechButton = document.getElementById('promptSpeechButton');
 
         promptSpeechButton.addEventListener('click', () => {
             recognition.start();
@@ -145,6 +148,11 @@
                 promptInput.value += ' ' + transcript;
             }
         });
+
+        } else {
+        console.log('SpeechRecognition API is not supported in this browser.');
+        }
+
         const promptForm = document.getElementById('prompt-form');
         const imagesContainer = document.getElementById('images-container');
         const firstFormImagesContainer  = document.getElementById('imagen');

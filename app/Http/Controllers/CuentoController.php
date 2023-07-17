@@ -142,7 +142,7 @@ class CuentoController extends Controller
     {
         $p = $prompt;
         
-        $open_ai_key = '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';
+        $open_ai_key = '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';
 
         $open_ai = new OpenAi($open_ai_key);
         
@@ -178,8 +178,11 @@ class CuentoController extends Controller
             $paginas[$i]->url = $deleteImagePath ;
         }
 
+        $deleteImagePathCuento = str_replace(url('http://127.0.0.1:8000/storage/'), '', $cuento->url);
+        $cuento->url = $deleteImagePathCuento ;
+
         $pdf = Pdf::loadView('cuento.descargar', compact('cuento','paginas','usuario'));
-        return $pdf->download('invoice.pdf');
+        return $pdf->download("$cuento->titulo.pdf");
 
         //return view('cuento.show', compact('cuento','paginas'));
     }
